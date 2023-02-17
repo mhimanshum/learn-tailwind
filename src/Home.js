@@ -1,8 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import BlogCard from './components/BlogCard';
 
 function Home() {
+  const navigate = useNavigate();
+  console.log(navigate);
+
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
@@ -10,7 +14,7 @@ function Home() {
       axios
         .get('http://localhost:3000/blogs')
         .then((res) => {
-          console.log(res);
+          // console.log(res.data);
           setBlogs(res.data);
         })
         .catch((err) => console.log(err));
@@ -18,18 +22,19 @@ function Home() {
 
     fetchBlogs();
   }, []);
+
   return (
     <div>
       <div className="relative h-screen sm:h-[550px] ">
         <img
-          src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"
+          src="https://dlearnerblog.netlify.app/_nuxt/img/homeImage.d05f027.jpeg"
           alt="hero"
           className="h-full w-full object-cover"
         />
         <div className="absolute inset-0 flex justify-center items-center h-full w-full bg-black bg-opacity-50">
           <div className="-mt-20 sm:mt-0">
             <h3 className="text-3xl sm:text-5xl font-bold text-white">
-              Himanshu Maurya
+              DLearner
             </h3>
             <p className="text-xl sm:text-2xl font-semibold text-white">
               you need to learn right now
@@ -48,6 +53,7 @@ function Home() {
                   title={blog.title}
                   description={blog.description}
                   image={blog.image.url}
+                  readBlog={() => navigate(`/${blog._id}`)}
                 />
               );
             })}
@@ -56,4 +62,5 @@ function Home() {
     </div>
   );
 }
+
 export default Home;
